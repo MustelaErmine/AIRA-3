@@ -1,6 +1,9 @@
 #pragma once
 
 #include "pch.h"
+#include "Comparator.h"
+
+#define SORT_FUNCTION template <typename T, typename Compare> requires Comparator<Compare, T>
 
 template <typename T>
 int linear_length(T* first, T* last) {
@@ -29,11 +32,23 @@ void sortswap(T* left, T* right) {
 }
 
 template <typename T>
-void printarray(T* first, T* last) {
+void print_array(T* first, T* last) {
 	T* curPtr = first;
 	while (curPtr != last) {
 		std::cout << *curPtr << " ";
 		curPtr++;
 	}
-	std::cout << *last << std::endl;
+	std::cout << std::endl;
+}
+
+SORT_FUNCTION
+bool ensure_sorted(T* first, T* last, Compare comp) {
+	auto ptr = first;
+	while (ptr + 1 != last) {
+		if (!comp(ptr[0], ptr[1]))
+			return false;
+		++ptr;
+	}
+	
+	return true;
 }

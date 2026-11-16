@@ -4,8 +4,8 @@
 #include "Comparator.h"
 #include "sorttools.hpp"
 
-template <typename T, typename Compare> requires Comparator<Compare, T>
-void insertionSort(T* first, T* last, Compare comp) {
+SORT_FUNCTION
+void insertionsort(T* first, T* last, Compare comp) {
 	auto length = linear_length(first, last);
 
 	for (int i = 1; i < length; i++) {
