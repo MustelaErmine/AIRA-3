@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="AIRA-3-Tests/AIRA-3-Tests.vcxproj" />
+  <Project Path="AIRA-3/AIRA-3.vcxproj" />
+</Solution>
