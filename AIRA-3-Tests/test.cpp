@@ -12,14 +12,13 @@ TEST(Insertion, Int) {
 	}
 
 	auto comp = [](int a, int b) { return a < b; };
-	auto comp_ensure = [](int a, int b) { return a <= b; };
 	
 	// Act
 	insertionsort(a, a + LENGTH, comp);
 	print_array(a, a + LENGTH);
 
 	// Assert
-	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp_ensure));
+	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
 
 #undef LENGTH
 }
@@ -32,14 +31,13 @@ TEST(Insertion, Arbitary) {
 	}
 
 	auto comp = [](Arb a, Arb b) { return a._val < b._val; };
-	auto comp_ensure = [](Arb a, Arb b) { return a._val <= b._val; };
 	
 	// Act
 	insertionsort(a, a + LENGTH, comp);
 	print_array(a, a + LENGTH);
 
 	// Assert
-	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp_ensure));
+	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
 
 #undef LENGTH
 }
@@ -54,14 +52,14 @@ TEST(Quick, Int) {
 	}
 
 	auto comp = [](int a, int b) { return a < b; };
-	auto comp_ensure = [](int a, int b) { return a <= b; };
 
 	// Act
 	quicksort(a, a + LENGTH, comp);
 	print_array(a, a + LENGTH);
+	string_array(a, a + LENGTH);
 
 	// Assert
-	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp_ensure));
+	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
 
 #undef LENGTH
 }
@@ -75,34 +73,101 @@ TEST(Quick, Arb) {
 	}
 
 	auto comp = [](Arb a, Arb b) { return a._val < b._val; };
-	auto comp_ensure = [](Arb a, Arb b) { return a._val <= b._val; };
 
 	// Act
 	quicksort(a, a + LENGTH, comp);
 	print_array(a, a + LENGTH);
 
 	// Assert
-	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp_ensure));
+	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
 
 #undef LENGTH
 }
 
-TEST(Partition, Int) {
-#define LENGTH 10
+TEST(Quick, Inverse) {
+#define LENGTH 100
 
 	// Arrange
 	int a[LENGTH];
 	for (int i = 0; i < LENGTH; i++) {
-		a[i] = getInt(0, LENGTH);
+		a[i] = LENGTH - i;
 	}
 
 	auto comp = [](int a, int b) { return a < b; };
-	auto comp_ensure = [](int a, int b) { return a <= b; };
 
 	// Act
-	_partition(a, a + LENGTH, comp);
+	quicksort(a, a + LENGTH, comp);
 	print_array(a, a + LENGTH);
+	string_array(a, a + LENGTH);
+
 	// Assert
+	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
+
+#undef LENGTH
+}
+
+TEST(Quick, Forward) {
+#define LENGTH 100
+
+	// Arrange
+	int a[LENGTH];
+	for (int i = 0; i < LENGTH; i++) {
+		a[i] = i;
+	}
+
+	auto comp = [](int a, int b) { return a < b; };
+
+	// Act
+	quicksort(a, a + LENGTH, comp);
+	print_array(a, a + LENGTH);
+	string_array(a, a + LENGTH);
+
+	// Assert
+	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
+
+#undef LENGTH
+}
+
+TEST(Quick, Equal) {
+#define LENGTH 100
+
+	// Arrange
+	int a[LENGTH];
+	for (int i = 0; i < LENGTH; i++) {
+		a[i] = 0;
+	}
+
+	auto comp = [](int a, int b) { return a < b; };
+
+	// Act
+	quicksort(a, a + LENGTH, comp);
+	print_array(a, a + LENGTH);
+	string_array(a, a + LENGTH);
+
+	// Assert
+	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
+
+#undef LENGTH
+}
+
+TEST(Quick, Huge) {
+#define LENGTH 100000
+
+	// Arrange
+	int a[LENGTH];
+	for (int i = 0; i < LENGTH; i++) {
+		a[i] = 0;
+	}
+
+	auto comp = [](int a, int b) { return a < b; };
+
+	// Act
+	quicksort(a, a + LENGTH, comp);
+	print_array(a, a + LENGTH);
+	string_array(a, a + LENGTH);
+
+	// Assert
+	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
 
 #undef LENGTH
 }

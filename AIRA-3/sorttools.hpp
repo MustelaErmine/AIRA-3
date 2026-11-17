@@ -41,11 +41,23 @@ void print_array(T* first, T* last) {
 	std::cout << std::endl;
 }
 
+template <typename T>
+std::string string_array(const T* first, const T* last) {
+	std::ostringstream stringBuilder;
+	const T* curPtr = first;
+	while (curPtr != last) {
+		stringBuilder << *curPtr << " ";
+		curPtr++;
+	}
+	stringBuilder << std::endl;
+	return stringBuilder.str();
+}
+
 SORT_FUNCTION
 bool ensure_sorted(T* first, T* last, Compare comp) {
 	auto ptr = first;
-	while (ptr + 1 != last) {
-		if (!comp(ptr[0], ptr[1]))
+	while (ptr + 2 != last) {
+		if (comp(ptr[1], ptr[0]))
 			return false;
 		++ptr;
 	}
