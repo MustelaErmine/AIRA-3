@@ -150,24 +150,25 @@ TEST(Quick, Equal) {
 #undef LENGTH
 }
 
-TEST(Quick, Huge) {
-#define LENGTH 100000
+TEST(Quick, Hugea) {
+#define LENGTH 10000000
 
 	// Arrange
-	int a[LENGTH];
+	int* a = (int*)malloc(LENGTH * sizeof(int));
+
 	for (int i = 0; i < LENGTH; i++) {
-		a[i] = 0;
+		a[i] = getInt(0, LENGTH);
 	}
 
 	auto comp = [](int a, int b) { return a < b; };
 
 	// Act
 	quicksort(a, a + LENGTH, comp);
-	print_array(a, a + LENGTH);
-	string_array(a, a + LENGTH);
 
 	// Assert
 	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
+
+	free(a);
 
 #undef LENGTH
 }

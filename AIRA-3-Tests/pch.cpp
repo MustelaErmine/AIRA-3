@@ -4,8 +4,8 @@
 
 #include "pch.h"
 
-std::mt19937 generator{ 42 };
-//std::mt19937 generator{ std::random_device{}() };
+//std::mt19937 generator{ 42 };
+std::mt19937 generator{ std::random_device{}() };
 
 int getInt(int min, int max) {
 	auto dist = std::uniform_int_distribution<int>(min, max);

@@ -4,8 +4,8 @@
 #include "insertionsort.hpp"
 #include "sorttools.hpp"
 
-#define _QS_LENGTH_FOR_INSERTION 7
-#define _QS_LENGTH_FOR_RECURSION 42
+#define _QS_LENGTH_FOR_INSERTION 60
+#define _QS_LENGTH_FOR_RECURSION 70
 
 SORT_FUNCTION
 void quicksort(T* first, T* last, Compare comp) {
