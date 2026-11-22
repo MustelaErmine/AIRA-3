@@ -4,8 +4,7 @@
 #include "insertionsort.hpp"
 #include "sorttools.hpp"
 
-#define _QS_LENGTH_FOR_INSERTION 60
-#define _QS_LENGTH_FOR_RECURSION 70
+int LENGTH_FOR_INSERTION = 17;
 
 SORT_FUNCTION
 void quicksort(T* first, T* last, Compare comp) {
@@ -13,37 +12,38 @@ void quicksort(T* first, T* last, Compare comp) {
 	if (length <= 1) {
 		return;
 	}
-	if (length <= _QS_LENGTH_FOR_INSERTION) {
+	if (length <= LENGTH_FOR_INSERTION) {
 		insertionsort(first, last, comp);
 		return;
 	}
 
-	std::deque<std::pair<T*, T*>> sort_areas;
-	sort_areas.push_back(std::make_pair(first, last));
+	T* sort_start = first;
+	T* sort_end = last;
 
-	while (!sort_areas.empty()) {
-		std::pair<T*, T*> area = sort_areas.front();
-		sort_areas.pop_front();
-
-		auto area_length = linear_length(area.first, area.second);
+	while (sort_start != nullptr && sort_end != nullptr) {
+		auto area_length = linear_length(sort_start, sort_end);
 		if (area_length <= 1) {
-			continue;
+			break;
 		}
-		if (area_length <= _QS_LENGTH_FOR_INSERTION) {
-			insertionsort(area.first, area.second, comp);
-			continue;
+		if (area_length <= LENGTH_FOR_INSERTION) {
+			insertionsort(sort_start, sort_end, comp);
+			break;
 		}
-		T* support_place = _partition(area.first, area.second, comp);
-		if (area_length <= _QS_LENGTH_FOR_RECURSION) {
-			quicksort(area.first, support_place + 1, comp);
-			quicksort(support_place + 1, area.second, comp);
-			if (!ensure_sorted(area.first, area.second, comp)) {
-				print_array(area.first, area.second);
-			}
-			continue;
+		T* support_place = _partition(sort_start, sort_end, comp);
+
+		auto length1 = linear_length(sort_start, support_place + 1);
+		auto length2 = linear_length(support_place + 1, sort_end);
+
+		if (length1 < length2) {
+			quicksort(sort_start, support_place + 1, comp);
+			sort_start = support_place + 1;
+			//sort_end = sort_end;
 		}
-		sort_areas.push_back(std::make_pair(area.first, support_place + 1));
-		sort_areas.push_back(std::make_pair(support_place + 1, area.second));
+		else {
+			quicksort(support_place + 1, sort_end, comp);
+			//sort_start = sort_start;
+			sort_end = support_place + 1;
+		}
 	}
 	if (!ensure_sorted(first, last, comp)) {
 		print_array(first, last);

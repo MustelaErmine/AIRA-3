@@ -2,6 +2,8 @@
 #include "../AIRA-3/insertionsort.hpp"
 #include "../AIRA-3/quicksort.hpp"
 
+#include <chrono>
+
 TEST(Insertion, Int) {
 #define LENGTH 100
 
@@ -168,6 +170,38 @@ TEST(Quick, Hugea) {
 	// Assert
 	EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
 
+	free(a);
+
+#undef LENGTH
+}
+
+TEST(Quick, HugeTimer) {
+#define LENGTH 1000000
+
+
+	int* a = (int*)malloc(LENGTH * sizeof(int));
+	// Arrange
+	for (int i = 0; i < 100; i++) {
+		LENGTH_FOR_INSERTION = i;
+
+		for (int i = 0; i < LENGTH; i++) {
+			a[i] = getInt(0, LENGTH);
+		}
+
+		auto comp = [](int a, int b) { return a < b; };
+
+
+		auto start = std::chrono::steady_clock::now();
+		// Act
+		quicksort(a, a + LENGTH, comp);
+		auto end = std::chrono::steady_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+		std::cout <<  duration.count() << std::endl;
+
+		// Assert
+		EXPECT_TRUE(ensure_sorted(a, a + LENGTH, comp));
+
+	}
 	free(a);
 
 #undef LENGTH
